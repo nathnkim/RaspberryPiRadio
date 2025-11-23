@@ -1,0 +1,19 @@
+#Basic mpv internet stream playing service file put together with the assistance of ChatGPT (I have verified this works)
+#Stream from KCSM, the greatest jazz radio in the world
+#Place in /etc/systemd/system/
+#Find --audio-device=alsa/ name via `aplay -L` command
+
+[Unit]
+Description=KCSM Jazz Stream Player
+After=network-online.target sound.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/bin/mpv --no-video --audio-device=alsa/sysdefault:CARD=Pro --volume=100 --loop=inf http://ice5.securenetsystems.net/KCSM
+Restart=always
+RestartSec=3
+#Replace [USER] with raspberry pi user
+User=[USER]
+
+[Install]
+WantedBy=multi-user.target
